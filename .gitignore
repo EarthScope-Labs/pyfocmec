@@ -20,3 +20,14 @@ TODO
 TODO.txt
 CLAUDE.md
 AGENTS.md
+
+# pyfocmec output files written to the repo root
+/focmec.lst
+/focmec.out
+/focmec.inp
+/focmec_prep_input.txt
+/synth_focmec.inp
+/dsretc.lst
+/focplt.*
+/ratplt.*
+/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].inp

@@ -1,6 +1,7 @@
 # pyfocmec
 
-Python port of **FOCMEC** (FOCal MEChanism determinations) by Arthur Snoke (Virginia Tech).
+Python port of **FOCMEC** (FOCal MEChanism determinations) by Arthur Snoke (Virginia Tech).  The
+original Fortran code can be found at: https://github.com/iris-edu-legacy/focmec
 
 FOCMEC finds the double-couple focal mechanisms that fit observed **P, SV and SH polarities** and
 **SV/P, SH/P and SV/SH amplitude ratios**.  It searches the focal sphere systematically on a regular
@@ -28,8 +29,8 @@ focmec data.inp --params run.toml                 # parameters from a TOML file
 ```
 
 The original interactive dialogue is still there, so the driver scripts that came with FOCMEC work
-with the matching `--interactive` command in place of the Fortran binary: the `rfocmec_*` scripts with
-`focmec --interactive`, the `rdsretc_*` scripts with `pyfocmec dsretc --interactive`:
+with the matching `--interactive` (or `-i`) command in place of the Fortran binary: the `rfocmec_*`
+scripts with `focmec --interactive`, the `rdsretc_*` scripts with `pyfocmec dsretc --interactive`:
 
 ```
 focmec --interactive < answers.txt
@@ -189,7 +190,8 @@ FOCMEC was written by Arthur Snoke.  If you use it, please cite
   San Diego, Chapter 85.12.
 
 The numerical code is a port of the 2017 release of the Fortran package; consult the original manual
-(`focmec_manual.pdf` in that distribution) for the method, conventions and examples.
+(`focmec_manual.pdf` in that [distribution](https://github.com/iris-edu-legacy/focmec)) for the method,
+conventions and examples.
 
 ## Development
 
@@ -197,5 +199,7 @@ The numerical code is a port of the 2017 release of the Fortran package; consult
 python -m venv .venv && .venv/bin/pip install -e ".[dev,plot,taup]"
 .venv/bin/pytest
 ```
+
+## License
 
 MIT licensed (see `LICENSE`).
