@@ -40,6 +40,21 @@ def pt_axis_divergence(got: str, ref: str, tol: float = 0.0105) -> bool:
     return abs(dot) < 2e-3
 
 
+def trend_wrap_equiv(got: str, ref: str) -> bool:
+    """Same line except a trend printed as 360.00 in one and 0.00 in the other.
+
+    A trend of -0.0 or +0.0 comes out of the last bit of float32 trig, which differs between
+    libm implementations, and both name the same direction.  Only trend lines are considered.
+    """
+    if "Trend" not in got or "Trend" not in ref:
+        return False
+
+    def norm(t):
+        return re.sub(r"\s+", "", t).replace("360.00", "0.00")
+
+    return norm(got) == norm(ref)
+
+
 def lines_match(got: str, ref: str, tol: float = 0.0105) -> bool:
     """Same text and column layout; numbers may differ by a last printed digit (``tol``).
 
@@ -74,7 +89,7 @@ def compare_files(got_path, ref_path, skip_first=True, tol=0.0105, noise=()):
     bad = [
         (i, g, r)
         for i, (g, r) in enumerate(zip(got, ref))
-        if g != r and not ((i in noise and lines_match(g, r, tol)) or pt_axis_divergence(g, r, tol))
+        if g != r and not (trend_wrap_equiv(g, r) or (i in noise and lines_match(g, r, tol)) or pt_axis_divergence(g, r, tol))
     ]
     assert not bad, f"{len(bad)} differing lines; first: {bad[0]}"
     return sum(g != r for g, r in zip(got, ref))
