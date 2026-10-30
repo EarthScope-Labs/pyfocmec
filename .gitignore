@@ -31,3 +31,9 @@ AGENTS.md
 /focplt.*
 /ratplt.*
 /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].inp
+
+# files written by examples/*/run.py
+/examples/*/focmec.lst
+/examples/*/focmec.out
+/examples/*/my_focmec_8sta.inp
+/examples/*/*.png
