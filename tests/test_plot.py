@@ -73,13 +73,89 @@ def test_read_out_follows_solplt_header_rule(tmp_path):
         plot.read_out(f)
 
 
-def test_ratplt_symbols_grow_linearly_with_the_misfit():
-    # ratplt.f draws a symbol of height scale*10**|d|; scatter(s=) is an area, so s ~ (10**|d|)**2
+def _record_symbols(monkeypatch):
+    calls = []
+    real = plot.draw_symbol
+
+    def spy(ax, x, y, ns, height, *a, **kw):
+        calls.append((ns, height))
+        return real(ax, x, y, ns, height, *a, **kw)
+
+    monkeypatch.setattr(plot, "draw_symbol", spy)
+    return calls
+
+
+def test_symbol_shapes():
+    from pyfocmec import _symbols as sym
+
+    pts = {k: {p for stroke in sym.SHAPES[k] for p in stroke} for k in (1, 2, 5, 12)}
+    assert len(pts[1] - {(0, 0), (0, 10)}) == 8  # octagon (P compression; the tick reaches the top edge)
+    assert len(pts[2] - {(0, 0)}) == 3  # triangle (P dilatation)
+    assert pts[12] == {(-10, 10), (10, 10), (-10, -10), (10, -10)}  # hourglass
+    # a symbol of height 21 spans +-10; turning the arrow 90 degrees counter-clockwise moves its tip west
+    tip = sym.strokes(6, 21.0, angle=90.0)[0][1]
+    assert tuple(np.round(tip, 9)) == (-10.0, 0.0)
+
+
+def test_ratplt_symbols_grow_linearly_with_scale_and_misfit(monkeypatch):
+    # ratplt.f draws a symbol of height scale*10**|d| (and a reference one of scale*10**error)
     inp = str(INPUTS / "focmec_8sta.inp")
-    ax = plot.ratplt(inp, (76.43, 59.08, -64.23), error=0.5, scale=0.2)
-    refs = [c for c in ax.collections if tuple(c.get_edgecolor()[0][:3]) == (0.5, 0.5, 0.5)]
-    assert refs and refs[0].get_sizes()[0] == pytest.approx(960 * 0.2 * (10**0.5) ** 2)
-    symbols = [c for c in ax.collections if c not in refs]
-    sizes = np.array([c.get_sizes()[0] for c in symbols])
-    d = 0.5 * np.log10(sizes / (960 * 0.2))  # recovers |o-c| for every ratio
-    assert np.all(d >= 0) and np.all(d < 1.0)  # misfits of a good mechanism are well below a decade
+    dsr = (76.43, 59.08, -64.23)
+    runs = {}
+    for scale in (0.2, 0.4):
+        calls = _record_symbols(monkeypatch)
+        plot.ratplt(inp, dsr, error=0.5, scale=scale)
+        runs[scale] = list(calls)[1:]  # the first symbol is the plus at the centre of the sphere
+    small, big = runs[0.2], runs[0.4]
+    assert [ns for ns, _ in small] == [ns for ns, _ in big]
+    assert {ns for ns, _ in small} <= {0, 1, 5, 12}
+    for (ns, h1), (_, h2) in zip(small, big):
+        assert h2 == pytest.approx(2 * h1)
+    ref = [h for ns, h in small if ns == 12]
+    assert ref and all(h == pytest.approx(0.2 * 10**0.5 / plot._R0) for h in ref)
+    d = np.log10(np.array([h for ns, h in small if ns != 12]) * plot._R0 / 0.2)  # |o-c| of every ratio
+    assert np.all(d >= 0) and np.all(d < 1.0)
+
+
+def test_polarity_symbols_and_error_box(tmp_path, monkeypatch):
+    inp = tmp_path / "t.inp"
+    inp.write_text(
+        "test\n"
+        + "".join(f"{s:<4}{az:8.2f}{toa:8.2f}{c}\n" for s, az, toa, c in (
+            ("A", 10.0, 40.0, "C"), ("A", 10.0, 40.0, "E"), ("B", 120.0, 50.0, "D"), ("C", 200.0, 60.0, "F"),
+            ("D", 300.0, 70.0, "<"), ("E", 100.0, 30.0, "+"))))
+    ax = plot.focal_sphere()
+    calls = _record_symbols(monkeypatch)
+    plot.plot_polarities(inp, ax=ax, size=0.2, errors=True, emergent=True, emergent_size=0.1)
+    u = 1.0 / plot._R0
+    assert [ns for ns, _ in calls] == [1, 0, 2, 6, 6, 3]  # E box follows its pick
+    assert [h for _, h in calls] == pytest.approx([0.2 * u, 0.2 * u, 0.2 * u, 0.2 * u, 0.2 * u, 0.1 * u])
+    calls.clear()
+    plot.plot_polarities(inp, ax=ax, phases=("P",))  # no error boxes, no emergent picks, no SV/SH
+    assert [ns for ns, _ in calls] == [1, 2]
+
+
+def test_per_set_styles(tmp_path):
+    dsr = (76.43, 59.08, -64.23)
+    ax = plot.focplt(sets=[dict(dsr=dsr, surface="SH", dash=(0.15, 0.05), lw=2)])
+    assert not [ln for ln in ax.lines if len(ln.get_xdata()) == 181]  # no fault planes, only the SH surface
+    assert len(ax.collections) == 1
+    ax = plot.focplt(sets=[dict(dsr=dsr), dict(dsr=dsr, dash=(0.15, 0.02), lw=2)])
+    planes = [ln for ln in ax.lines if len(ln.get_xdata()) == 181]
+    assert len(planes) == 4
+    assert [ln.get_linewidth() for ln in planes] == pytest.approx([plot._pen(1)] * 2 + [plot._pen(2)] * 2)
+    assert planes[0].is_dashed() is False and planes[2].is_dashed() is True
+
+
+def test_focplt_cli_sets_and_ratplt_label(tmp_path):
+    from pyfocmec.cli.plot import focplt_main, ratplt_main
+
+    out = tmp_path / "f.png"
+    assert focplt_main(["--inp", str(INPUTS / "focmec_8sta.inp"), "--dsr", "76.43", "59.08", "-64.23",
+                        "--dsr", "77.05", "54.08", "-59.13", "--surface", "SH", "--phases", "SH", "--label", "c)",
+                        "-o", str(out)]) == 0
+    assert out.stat().st_size > 2000
+    out2 = tmp_path / "r.png"
+    assert ratplt_main([str(INPUTS / "focmec_8sta.inp"), "--dsr", "76.43", "59.08", "-64.23", "--error", "0.16",
+                        "--scale", "0.3", "--label", "a)", "-o", str(out2)]) == 0
+    assert out2.stat().st_size > 2000

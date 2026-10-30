@@ -85,12 +85,9 @@ quirks, is the same as the reference.
   IASP91.
 - **Prep-tool listings.** `ratio_prep`, `focmec_prep` and `synth_test` wrote `.lst` files. In pyfocmec this
   information goes to an optional `--log` file in a different format.
-- **Plotting** uses matplotlib instead of the SAC-graphics (SGF) layer, writing PDF, PNG or SVG.
-  - Symbols differ from the original. Compressions are filled circles and dilatations are open circles
-    (the original used a hexagon and a triangle). `ratplt` uses a square for SV/P, a triangle for SH/P and
-    a circle for SV/SH, with a dashed reference circle.
-  - The `E` error-box marker is not drawn.
-  - `focplt` draws P/T axes and SV/SH nodal surfaces only for a single `--dsr` mechanism.
+- **Plotting** uses matplotlib instead of the SAC-graphics (SGF) layer, writing PDF, PNG or SVG. The plots
+  follow the original closely (same symbol set, sizes, dash patterns and label positions); shapes and lettering
+  are redrawn and line weights and dash phase can differ slightly.
 
 ### Added
 
@@ -100,6 +97,7 @@ quirks, is the same as the reference.
 - A single `pyfocmec` command with subcommands: `search`, `dsretc`, `radiat`, `freesurf`, `synth`,
   `convert`, `ratio-prep`, `prep`, `hypo2foc`, `focplt`, `ratplt`.
 - `dsretc` can be run non-interactively (`--dsr`, `--pt`, `--mt`).
+- `focplt --beachball` and `--caption` and `ratplt --legend`, which have no counterpart in the original.
 
 ### Not ported
 

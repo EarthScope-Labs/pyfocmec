@@ -100,15 +100,14 @@ Everything in the original package that is still useful is here.  Subcommands of
 | `focmec_prep` | `pyfocmec prep`, `prep.focmec_prep()` | picks + amplitudes → FOCMEC input, with free-surface and optional Q corrections |
 | `hypo2foc` | `pyfocmec hypo2foc`, `prep.hypo2foc()` | hypoellipse archive → FOCMEC input files |
 | `convert_input` | `pyfocmec convert` | pre-2017 input → current format |
-| `focplt`, `ratplt` | `pyfocmec focplt` / `ratplt`, `pyfocmec.plot` | matplotlib: polarities, the nodal planes of every solution in a `focmec.out`, and for a single `--dsr` mechanism also its P/T axes and SV/SH nodal surfaces; ratio misfit. Output to PDF/PNG/SVG |
+| `focplt`, `ratplt` | `pyfocmec focplt` / `ratplt`, `pyfocmec.plot` | matplotlib, following the original's symbols, sizes and line styles: polarities (with `E` error boxes), any number of solution sets from `focmec.out` files or `--dsr` mechanisms, each with its own dash pattern and line width, as P nodal planes or SH/SV nodal surfaces, P/T/B axes; ratio misfit. Output to PDF/PNG/SVG |
 
 Not carried over: the SAC-graphics-format (SGF) layer (`sgftops`, `sgftopdf`, `sgftoeps`, `sgftox`, `plsgf`,
 `symbol`, `symdemo`, `vwbeetle`), replaced by matplotlib; `ttimes` and the `iaspei-tau` tables, replaced by
 `obspy.taup`; `epicen`, which never compiled in the original distribution; the `.lst` listings written by
 `ratio_prep`, `focmec_prep` and `synth_test` (use `--log`, which has a different layout); the station-elevation
 table of `ratio_prep_1layer`; the `ratplt` listing of observed, calculated and difference values (available
-as `Solution.ratios`); the `E` error-box marker of `focplt`; overlaying several mechanisms with different line
-styles in one `focplt` run (draw them with `pyfocmec.plot` instead).
+as `Solution.ratios`).
 
 A typical workflow with amplitude ratios:
 
@@ -175,9 +174,11 @@ it.  Each of these is also listed in `CHANGELOG.md`.
 * **Station names are matched exactly** (still ignoring case), not by prefix, in `ratio-prep`.
 * **Travel times come from `obspy.taup`**, not the `iaspei-tau` tables, and the default model is `ak135`
   where the original used IASP91.
-* **Plot symbols differ** from the original: P compressions are filled circles and dilatations are open
-  circles (the original used a hexagon and a triangle); `ratplt` marks SV/P with squares, SH/P with
-  triangles and SV/SH with circles, with a dashed reference circle.
+* **Plots** are drawn with matplotlib rather than through SGF/`sgftopdf`.  They follow the original closely:
+  the same symbol set, sizes (in the inches of the original, on its 2.3 in sphere), dash patterns and label
+  positions.  The shapes and the lettering are redrawn, and line weights and the phase of dashes can differ by
+  a fraction of a point.  `focplt` also offers a shaded compressional quadrants
+  option (`--beachball`) and a hemisphere caption (`--caption`), and `ratplt` a symbol legend (`--legend`).
 
 ## Citation and credit
 
