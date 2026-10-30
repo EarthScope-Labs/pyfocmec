@@ -27,7 +27,7 @@ dependencies = ["numpy>=1.23", "tomli>=2; python_version < '3.11'"]
 
 [project.optional-dependencies]
 plot = ["matplotlib>=3.5"]
-taup = ["obspy>=1.4"]
+taup = ["obspy>=1.5"]
 dev = ["pytest>=7", "build", "twine"]
 
 [project.scripts]
