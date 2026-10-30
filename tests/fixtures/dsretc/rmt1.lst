@@ -1,0 +1,13 @@
+  Sat Oct 10 17:57:14 2026 for program dsretc
+
+     comment rmt1
+   Input is moment tensor (Dziewonski convention)
+ MRR MTT MPP MRT MRP MTP
+  3.219     -2.154     -1.142      1.687     -4.774    -0.3830    
+  
+  Trace of moment tensor = -7.7000E-02  Deviatoric tensor moment =   5.825    
+  Deviatoric moment tensor eigenvalues: -4.360     -2.257      6.616    
+  EPSILON    % OF CLVD     % OF DC
+   0.3411     68.2123     31.7877
+  
+  Exiting because less than 50% double couple

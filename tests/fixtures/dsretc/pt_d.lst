@@ -1,0 +1,10 @@
+  Sat Oct 10 17:57:08 2026 for program dsretc
+
+     comment pt_d
+     Input: Trend, Plunge of P,T      0.00    90.00    90.00     0.00
+     Dip,Strike,Rake     45.00    -0.00   -90.00
+     Dip,Strike,Rake     45.00   180.00   -90.00   Auxiliary Plane
+     Lower Hem. Trend, Plunge of A,N     90.00    45.00   270.00    45.00
+     Lower Hem. Trend & Plunge of B    180.00     0.00
+     Lower Hem. Trend, Plunge of P,T      0.00    90.00    90.00     0.00
+     MRR =-1.00  MTT = 0.00  MPP = 1.00  MRT = 0.00  MRP = 0.00  MTP = 0.00

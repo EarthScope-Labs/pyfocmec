@@ -1,0 +1,9 @@
+  Sat Oct 10 17:57:08 2026 for program dsretc
+
+     comment dsr_f
+     Dip,Strike,Rake     89.99   359.90  -179.90
+     Dip,Strike,Rake     89.90   269.90    -0.01   Auxiliary Plane
+     Lower Hem. Trend, Plunge of A,N    179.90     0.10   269.90     0.01
+     Lower Hem. Trend & Plunge of B    180.00    90.00
+     Lower Hem. Trend, Plunge of P,T    224.90     0.08   134.90     0.06
+     MRR = 0.00  MTT =-0.00  MPP = 0.00  MRT = 0.00  MRP =-0.00  MTP = 1.00

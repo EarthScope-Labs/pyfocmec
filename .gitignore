@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Development environment
+venv/
+.venv/
+
+TODO
+TODO.txt
+CLAUDE.md
+AGENTS.md

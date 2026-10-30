@@ -1,0 +1,74 @@
+{
+ "rfocmec_8sta": {
+  "lst": "focmec_8sta.lst",
+  "out": "focmec_8sta.out"
+ },
+ "rfocmec_8sta-finer": {
+  "lst": "focmec_8sta-finer.lst",
+  "out": "focmec_8sta-finer.out"
+ },
+ "rfocmec_8sta-noratios": {
+  "lst": "focmec_8sta-noratios.lst",
+  "out": "focmec_8sta-noratios.out"
+ },
+ "rfocmec_8staRW-cmtfixed": {
+  "lst": "focmec_8staRW-cmtfixed.lst",
+  "out": "focmec_8staRW-cmtfixed.out"
+ },
+ "rfocmec_8staRW-qedfixed": {
+  "lst": "focmec_8staRW-qedfixed.lst",
+  "out": "focmec_8staRW-qedfixed.out"
+ },
+ "rfocmec_RW-1.75": {
+  "lst": "focmec_RW-1.75.lst",
+  "out": "focmec_RW-1.75.out"
+ },
+ "rfocmec_RW-2.0": {
+  "lst": "focmec_RW-2.0.lst",
+  "out": "focmec_RW-2.0.out"
+ },
+ "rfocmec_UW-1_ne": {
+  "lst": "focmec_UW-1_ne.lst",
+  "out": "focmec_UW-1_ne.out"
+ },
+ "rfocmec_UW-4": {
+  "lst": "focmec_UW-4.lst",
+  "out": "focmec_UW-4.out"
+ },
+ "rfocmec_all": {
+  "lst": "focmec_all.lst",
+  "out": "focmec_all.out"
+ },
+ "rfocmec_allRW-cmtfixed": {
+  "lst": "focmec_allRW-cmtfixed.lst",
+  "out": "focmec_allRW-cmtfixed.out"
+ },
+ "rfocmec_allRW-qedfixed": {
+  "lst": "focmec_allRW-qedfixed.lst",
+  "out": "focmec_allRW-qedfixed.out"
+ },
+ "rfocmec_emergjunk": {
+  "lst": "focmec_emergjunk.lst",
+  "out": "focmec_emergjunk.out"
+ },
+ "rfocmec_gridtie": {
+  "lst": "focmec_gridtie.lst",
+  "out": "focmec_gridtie.out"
+ },
+ "rfocmec_nodalstn": {
+  "lst": "focmec_nodalstn.lst",
+  "out": "focmec_nodalstn.out"
+ },
+ "rfocmec_qedRW": {
+  "lst": "focmec_qedRWne.lst",
+  "out": "focmec_qedRWne.out"
+ },
+ "rfocmec_qedRW-qedfixed": {
+  "lst": "focmec_qedRW-qedfixed-ne.lst",
+  "out": "focmec_qedRW-qedfixed-ne.out"
+ },
+ "rfocmec_qedUW": {
+  "lst": "focmec_qedUWne.lst",
+  "out": "focmec_qedUWne.out"
+ }
+}

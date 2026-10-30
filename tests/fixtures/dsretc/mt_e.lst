@@ -1,0 +1,9 @@
+  Sat Oct 10 17:57:09 2026 for program dsretc
+
+     comment mt_e
+   Input is moment tensor (Dziewonski convention)
+ MRR MTT MPP MRT MRP MTP
+  1.000      1.000      1.000      0.000      0.000      0.000    
+  
+  Trace of moment tensor =   3.000      Deviatoric tensor moment =   0.000    
+ Exiting because purely isotropic source

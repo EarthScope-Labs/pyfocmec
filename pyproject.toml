@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.27"]  # license-files needs 1.27
+build-backend = "hatchling.build"
+
+[project]
+name = "pyfocmec"
+dynamic = ["version"]
+description = "Python port of FOCMEC: focal mechanisms from P/SV/SH polarities and amplitude ratios"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Chad Trabant", email = "chad.trabant@earthscope.org" }]
+keywords = ["seismology", "focal mechanism", "fault plane solution", "FOCMEC", "geophysics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = ["numpy>=1.23", "tomli>=2; python_version < '3.11'"]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.5"]
+taup = ["obspy>=1.4"]
+dev = ["pytest>=7", "build", "twine"]
+
+[project.scripts]
+focmec = "pyfocmec.cli.focmec:main"
+pyfocmec = "pyfocmec.cli.main:main"
+
+[tool.hatch.version]
+path = "src/pyfocmec/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyfocmec"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
